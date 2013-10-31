@@ -1,35 +1,55 @@
 pagerduty-sdk
 =============
 
-A Ruby SDK for Pagerduty's API
+pagerduty-sdk is a Ruby Gem for communicating with the
+[Pagerduty](http://www.pagerduty.com) API. It was designed to be as
+fully object-oriented as possible. Although it is still under some
+construction, it is functional and ready for use. 
+
+I plan to do much more work on this gem, and your feedback is greatly
+appreciated!
+
+2013-10-31
+=============
+
+I have just pushed my first commit of this gem to Github. I will be
+refactoring a lot of the code (and completing the last couple of
+functions) as soon as I can. Since I haven't generated any documentation
+for the gem, please know that you can pass the parameters as expected by
+any of the API methods below to the functions I've listed at the end of
+this README. 
+
+Example: If the `get_user` Users API method expects a user id, you would
+call the Pagerduty function as follows: `pagerduty.get_user(id:
+"#{USERID}")`
 
 This Gem is under construction!
 
-## Alerts
+#### Alerts
 http://developer.pagerduty.com/documentation/rest/alerts
 
-## Users
+#### Users
 http://developer.pagerduty.com/documentation/rest/users
 
-## Incidents
+#### Incidents
 http://developer.pagerduty.com/documentation/rest/incidents
 
-## Escalation Policies
+#### Escalation Policies
 http://developer.pagerduty.com/documentation/rest/escalation_policies
 
-## Escalation Rules
+#### Escalation Rules
 http://developer.pagerduty.com/documentation/rest/escalation_policies/escalation_rules
 
-## Log Entries
+#### Log Entries
 http://developer.pagerduty.com/documentation/rest/log_entries
 
-## Maintenance Windows
+#### Maintenance Windows
 http://developer.pagerduty.com/documentation/rest/maintenance_windows
 
-## Reports
+#### Reports
 http://developer.pagerduty.com/documentation/rest/reports
 
-## Schedules
+#### Schedules
 http://developer.pagerduty.com/documentation/rest/schedules
 - [x] GET schedules	List existing on-call schedules.
 - [x] GET schedules/:id	Show detailed information about a schedule, including entries for each layer and sub-schedule.
@@ -40,8 +60,7 @@ http://developer.pagerduty.com/documentation/rest/schedules
 - [ ] DELETE schedules/:id	Delete an on-call schedule.
 - [ ] GET schedules/:id/entries	List schedule entries that are active for a given time range for a specified on-call schedule.
 
-
-## Services
+#### Services
 http://developer.pagerduty.com/documentation/rest/services
 - [x] GET services	List existing services.
 - [x] GET services/:id	Get details about an existing service.
@@ -55,7 +74,6 @@ http://developer.pagerduty.com/documentation/rest/services
 
 
 ## Installation
-===============
 
 ```
 gem install pagerduty-sdk
