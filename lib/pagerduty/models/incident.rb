@@ -35,7 +35,7 @@ class Incident < Pagerduty
   def acknowledge
     JSON.parse(curl({
       uri: "https://#@@subdomain.pagerduty.com/api/v1/incidents/#{self.id}/acknowledge",
-      params: { 'requester_id' => self.assigned_to_user.id },
+      data: { 'requester_id' => self.assigned_to_user.id },
       method: 'PUT'
     }).body)
   end
@@ -43,7 +43,7 @@ class Incident < Pagerduty
   def resolve
     JSON.parse(curl({
       uri: "https://#@@subdomain.pagerduty.com/api/v1/incidents/#{self.id}/resolve",
-      params: { 'requester_id' => self.assigned_to_user.id },
+      data: { 'requester_id' => self.assigned_to_user.id },
       method: 'PUT'
     }).body)
   end
@@ -58,7 +58,7 @@ class Incident < Pagerduty
 
     JSON.parse(curl({
       uri: "https://#@@subdomain.pagerduty.com/api/v1/incidents/#{self.id}/resolve",
-      params: { 'requester_id' => self.assigned_to_user.id, }.merge(options),
+      data: { 'requester_id' => self.assigned_to_user.id, }.merge(options),
       method: 'PUT'
     }).body)
   end
