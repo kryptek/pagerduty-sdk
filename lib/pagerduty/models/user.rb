@@ -26,24 +26,25 @@ class Pagerduty
     #end
 
     def log_entries(options={})
-      LogEntries.new(JSON.parse(curl({
+      LogEntries.new(curl({
         uri: "https://#@@subdomain.pagerduty.com/api/v1/users/#{self.id}/log_entries",
         params: options,
           method: 'GET'
-      }).body))
+      }))
     end
 
     def delete
       res = curl({
         uri: "https://#@@subdomain.pagerduty.com/api/v1/users/#{self.id}",
-        method: 'DELETE'
+        method: 'DELETE',
+        raw_response: true
       })
 
       res.code == '204' ? "Successfully deleted User #{self.id}" : JSON.parse(response.body)
     end
 
     def save
-      saved_user = User.new(JSON.parse(curl({
+      saved_user = User.new(curl({
         uri: "https://#@@subdomain.pagerduty.com/api/v1/users/#{self.id}",
         data: {
           role: self.role,
@@ -52,7 +53,7 @@ class Pagerduty
           time_zone: self.time_zone
         },
         method: 'PUT'
-      }).body)['user'])
+      })['user'])
 
       self.role = saved_user.role
       self.name = saved_user.name

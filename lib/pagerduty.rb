@@ -8,8 +8,11 @@ require 'net/https'
 require 'uri'
 require 'virtus'
 
+# Core
 require 'pagerduty/core'
 require 'pagerduty/pagerduty'
+
+# Models
 require 'pagerduty/models/report'
 require 'pagerduty/models/agent'
 require 'pagerduty/models/assigneduser'
@@ -25,7 +28,13 @@ require 'pagerduty/models/notification'
 require 'pagerduty/models/log_entry'
 require 'pagerduty/models/channels'
 require 'pagerduty/models/alert'
+require 'pagerduty/models/alerts'
 require 'pagerduty/models/note'
+require 'pagerduty/models/notes'
 require 'pagerduty/models/incident'
+require 'pagerduty/models/incidents'
 require 'pagerduty/models/services'
 
+# Requests
+require 'pagerduty/requests/incident'
+#require 'pagerduty/requests/alerts'

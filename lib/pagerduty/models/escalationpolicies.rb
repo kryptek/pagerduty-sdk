@@ -52,18 +52,19 @@ class EscalationRule < Pagerduty
   def delete
     res = curl({
       uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{parent_policy.id}/escalation_rules/#{self.id}",
-      method: 'DELETE'
+      method: 'DELETE',
+      raw_response: true
     })
 
     res.code == '200' ? 'Successfully deleted' : JSON.parse(res.body)
   end
 
   def save
-    self.attributes = JSON.parse(curl({
+    self.attributes = curl({
       uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{parent_policy.id}/escalation_rules/#{self.id}",
       data: self.hashify,
       method: 'PUT'
-    }).body)['escalation_rule']
+    })['escalation_rule']
   end
 
 end
