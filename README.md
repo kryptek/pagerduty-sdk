@@ -26,4 +26,4 @@ pagerduty = Pagerduty.new(token: "#{token}", subdomain: "#{subdomain}")
 #<Pagerduty:0x007f9a340fc410>
 ```
 
-See [YARD documentation](http://rubydoc.info/gems/pagerduty-sdk/1.0.2/frames) for specific function usage.
+See [YARD documentation](http://rubydoc.info/github/kryptek/pagerduty-sdk/master/frames) for specific function usage.
