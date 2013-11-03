@@ -19,7 +19,10 @@ class Pagerduty
       end
 
       def notes
-        super(self.id)
+        Notes.new(curl({
+          uri: "https://#@@subdomain.pagerduty.com/api/v1/incidents/#{self.id}/notes",
+          method: 'GET'
+        }))
       end
 
       def acknowledge
