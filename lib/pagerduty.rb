@@ -34,7 +34,9 @@ require 'pagerduty/models/notes'
 require 'pagerduty/models/incident'
 require 'pagerduty/models/incidents'
 require 'pagerduty/models/services'
+require 'pagerduty/models/integration'
 
 # Requests
 require 'pagerduty/requests/incident'
+require 'pagerduty/requests/integration'
 #require 'pagerduty/requests/alerts'
