@@ -96,7 +96,8 @@ class EscalationPolicy < Pagerduty
   def delete
     res = curl({
       uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{self.id}",
-      method: 'DELETE'
+      method: 'DELETE',
+      raw_response: true
     })
 
     res.code == '204' ? 'Successfully deleted policy' : JSON.parse(res.body)
