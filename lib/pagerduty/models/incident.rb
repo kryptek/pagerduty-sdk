@@ -19,7 +19,7 @@ class Pagerduty
       attribute :last_status_change_on
       attribute :last_status_change_by, LastStatusChangeBy
       attribute :number_of_escalations
-      attribute :resolved_by_user, ResolvedByUser
+      attribute :resolved_by_user, Pagerduty::Users::ResolvedByUser
     end
 
   end

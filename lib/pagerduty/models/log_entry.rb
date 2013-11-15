@@ -6,8 +6,8 @@ class Pagerduty
     attribute :type
     attribute :created_at
     attribute :note
-    attribute :agent, Pagerduty::User
-    attribute :user, Pagerduty::User
+    attribute :agent, Pagerduty::Users::User
+    attribute :user, Pagerduty::Users::User
     attribute :channel
   end
 end

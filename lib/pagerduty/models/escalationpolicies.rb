@@ -30,6 +30,8 @@ class EscalationService
 end
 
 class EscalationRule < Pagerduty
+
+  include Pagerduty::Core
   include Virtus.model
 
   attribute :id
@@ -43,8 +45,15 @@ class EscalationRule < Pagerduty
     }
   end
 
+  # Returns the Escalation Policy associated with an Escalation Rule
+  #
+  # ==== Parameters
+  #
+  # ==== Returns
+  #
+  # {Pagerduty API Reference}[http://developer.pagerduty.com/documentation/rest/escalation_policies/show]
   def parent_policy
-    escalation_policies.detect { |policy| 
+    escalation_policies.detect { |policy|
       policy.escalation_rules.detect { |p| p.id == self.id }
     }
   end
@@ -53,7 +62,7 @@ class EscalationRule < Pagerduty
     res = curl({
       uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{parent_policy.id}/escalation_rules/#{self.id}",
       method: 'DELETE',
-      raw_response: true
+        raw_response: true
     })
 
     res.code == '200' ? 'Successfully deleted' : JSON.parse(res.body)
@@ -63,67 +72,70 @@ class EscalationRule < Pagerduty
     self.attributes = curl({
       uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{parent_policy.id}/escalation_rules/#{self.id}",
       data: self.hashify,
-      method: 'PUT'
+        method: 'PUT'
     })['escalation_rule']
   end
 
 end
 
-class EscalationPolicy < Pagerduty
-  include Virtus.model
+class Pagerduty
+  class EscalationPolicy
+    include Pagerduty::Core
+    include Virtus.model
 
-  attribute :id
-  attribute :name
-  attribute :description
-  attribute :escalation_rules, Array[EscalationRule]
-  attribute :services, Set[EscalationService]
-  attribute :num_loops
+    attribute :id
+    attribute :name
+    attribute :description
+    attribute :escalation_rules, Array[EscalationRule]
+    attribute :services, Set[EscalationService]
+    attribute :num_loops
 
-  def save
-    self.escalation_rules = self.escalation_rules.map { |rule|
-      rule.class == EscalationRule ? rule.hashify : rule
-    }
+    def save
+      self.escalation_rules = self.escalation_rules.map { |rule|
+        rule.class == EscalationRule ? rule.hashify : rule
+      }
 
-    saved_policy = EscalationPolicy.new(JSON.parse(curl({
-      uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{self.id}",
-      data: { escalation_policy: self.attributes },
-      method: 'PUT'
-    }).body)['escalation_policy'])
+      saved_policy = EscalationPolicy.new(JSON.parse(curl({
+        uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{self.id}",
+        data: { escalation_policy: self.attributes },
+          method: 'PUT'
+      }).body)['escalation_policy'])
 
-    self.attributes = saved_policy.attributes
+      self.attributes = saved_policy.attributes
+    end
+
+    def delete
+      res = curl({
+        uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{self.id}",
+        method: 'DELETE',
+          raw_response: true
+      })
+
+      res.code == '204' ? 'Successfully deleted policy' : JSON.parse(res.body)
+
+    end
+
+    def add_escalation_rule(options={})
+      EscalationRule.new(JSON.parse(curl({
+        uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{self.id}/escalation_rules",
+        data: { escalation_rule: options.hashify },
+          method: 'POST'
+      }).body)['escalation_rule'])
+    end
+
+    def update_escalation_rules(options={})
+      options[:rules] = options[:rules].map { |rule| rule.class == EscalationRule ? rule.hashify : rule }
+
+      JSON.parse(curl({
+        uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{self.id}/escalation_rules",
+        data: { escalation_rules: options[:rules] },
+          method: 'PUT'
+      }).body)
+    end
+
+    def refresh
+      self.attributes = get_escalation_policy(id: self.id)
+    end
+
   end
-
-  def delete
-    res = curl({
-      uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{self.id}",
-      method: 'DELETE',
-      raw_response: true
-    })
-
-    res.code == '204' ? 'Successfully deleted policy' : JSON.parse(res.body)
-
-  end
-
-  def add_escalation_rule(options={})
-    EscalationRule.new(JSON.parse(curl({
-      uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{self.id}/escalation_rules",
-      data: { escalation_rule: options.hashify },
-      method: 'POST'
-    }).body)['escalation_rule'])
-  end
-
-  def update_escalation_rules(options={})
-    options[:rules] = options[:rules].map { |rule| rule.class == EscalationRule ? rule.hashify : rule }
-
-    JSON.parse(curl({
-      uri: "https://#@@subdomain.pagerduty.com/api/v1/escalation_policies/#{self.id}/escalation_rules",
-      data: { escalation_rules: options[:rules] },
-      method: 'PUT'
-    }).body)
-  end
-
-  def refresh
-    self.attributes = get_escalation_policy(id: self.id)
-  end
-
 end
