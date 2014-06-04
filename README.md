@@ -18,6 +18,21 @@ appreciated!
 gem install pagerduty-sdk
 ```
 
+### Building/Installing a local gem
+
+Rake tasks to build and install the gem:
+
+```
+rake buildgem
+rake installgem
+```
+
+Or in one fell swoop
+
+```
+rake gem
+```
+
 ## Usage
 ```ruby
 require 'pagerduty'
