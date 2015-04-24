@@ -35,7 +35,7 @@ class Pagerduty
       url = URI.parse(options[:uri])
 
       if options[:params]
-        parameters = options[:params].map { |k,v| "#{k}=#{v}" }.join("&")
+        parameters = options[:params].map { |k,v| v.to_query(k) }.join("&")
         url += "?#{parameters}"
       end
 
