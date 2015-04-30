@@ -73,7 +73,13 @@ class Pagerduty
                    http.request(request)
                  end
 
-      options[:raw_response] == true ? response : JSON.parse(response.body)
+      if options[:raw_response] == true
+        response
+      elsif response.body
+        JSON.parse(response.body)
+      else
+        { 'code' => response.code, 'message' => response.message }
+      end
     end
 
 
