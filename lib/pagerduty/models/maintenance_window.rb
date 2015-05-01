@@ -44,7 +44,7 @@ class Pagerduty
         method: 'DELETE'
       })
 
-      res.code == '204' ? "Successfully deleted Maintenance Window #{self.id}" : JSON.parse(response.body)
+      res['code'] == '204' ? "Successfully deleted Maintenance Window #{self.id}" : res
 
     end
 
