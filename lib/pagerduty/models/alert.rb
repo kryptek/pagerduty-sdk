@@ -4,7 +4,7 @@ class Alert
   attribute :id
   attribute :type
   attribute :started_at
-  attribute :user, Pagerduty::User
+  attribute :user, Pagerduty::Users::User
   attribute :address
 
 end

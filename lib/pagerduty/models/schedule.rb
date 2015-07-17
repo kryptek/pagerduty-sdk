@@ -19,7 +19,7 @@ class Pagerduty
         include Virtus.model
 
         attribute :member_order
-        attribute :user, Pagerduty::User
+        attribute :user, Pagerduty::Users::User
       end
     end
   end

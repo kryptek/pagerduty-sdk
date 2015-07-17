@@ -7,7 +7,7 @@ class Pagerduty
     attribute :start_time
     attribute :end_time
     attribute :description
-    attribute :created_by, Pagerduty::User
+    attribute :created_by, Pagerduty::Users::User
     attribute :services, Array[Service]
     attribute :service_ids
 
