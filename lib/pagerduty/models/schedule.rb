@@ -82,6 +82,21 @@ end
 
 class Pagerduty
   class Schedules
+    class Overrides
+      class Override
+        include Virtus.model
+
+        attribute :id
+        attribute :start
+        attribute :end
+        attribute :user, Pagerduty::User
+      end
+    end
+  end
+end
+
+class Pagerduty
+  class Schedules
     class FinalSchedule
       include Virtus.model
 

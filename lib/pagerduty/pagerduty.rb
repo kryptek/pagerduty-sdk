@@ -987,6 +987,36 @@ class Pagerduty
     })).users
   end
 
+  # Create an override for a specific user covering the specified time range. If you create an override on top of an existing one, the last created override will have priority.
+  #
+  # ==== Parameters
+  # * 'options'<~Hash>
+  #   * 'id' - the id of the schedule to be overridden
+  #   * 'override'<~Hash>
+  #     * 'start'<~String>
+  #     * 'end'<~String>
+  #     * 'user_id'<~String>
+  #
+  # ==== Returns
+  # * <~Pagerduty::Schedules::Overrides::Override>
+  #   * 'id'<~String>
+  #   * 'start'<~String>
+  #   * 'end'<~String>
+  #   * 'user'<~Pagerduty::User>
+  #     * 'id'<~String>
+  #     * 'name'<~String>
+  #     * 'email'<~String>
+  #     * 'color'<~String>
+  #
+  # {Pagerduty API Reference}[https://developer.pagerduty.com/documentation/rest/schedules/overrides/create]
+  def create_schedule_override(options={})
+    Pagerduty::Schedules::Overrides::Override.new(curl({
+      uri: "https://#@@subdomain.pagerduty.com/api/v1/schedules/#{options[:id]}/overrides",
+      data: options.except(:id),
+      method: 'POST'
+    })['override'])
+  end
+
   # List existing services
   #
   # ==== Parameters
