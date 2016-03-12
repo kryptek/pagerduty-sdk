@@ -121,7 +121,7 @@ class Pagerduty
     }
   end
 
-  # Creates a new escalation policy. There must be at least one existing 
+  # Creates a new escalation policy. There must be at least one existing
   # escalation rule added to create a new escalation policy
   #
   # ==== Parameters
@@ -165,7 +165,7 @@ class Pagerduty
   def create_escalation_policy(options={})
 
     if options[:escalation_rules]
-      options[:escalation_rules] = options[:escalation_rules].map { |rule| 
+      options[:escalation_rules] = options[:escalation_rules].map { |rule|
         rule.class == EscalationRule ? rule.hashify : rule
       }
     end
@@ -510,7 +510,7 @@ class Pagerduty
   # * <~Notes>:
   #   * 'notes'<~Array>:
   #     * ~<Note>:
-  #       * 'id' - 
+  #       * 'id' -
   #       * 'user'<~Pagerduty::User>:
   #         * 'id'<~String>
   #         * 'name'<~String>
@@ -524,8 +524,8 @@ class Pagerduty
   #         * 'marketing'<~String>
   #         * 'marketing_opt_out'<~String>
   #         * 'type'<~String>
-  #       * 'content'<~String> - 
-  #       * 'created_at'<~String> - 
+  #       * 'content'<~String> -
+  #       * 'created_at'<~String> -
   #
   # {Pagerduty API Reference}[http://developer.pagerduty.com/documentation/rest/incidents/notes/list]
   def notes(id)
@@ -535,6 +535,37 @@ class Pagerduty
     }))
   end
 
+  # Create an note for a specific incident.
+  #
+  # ==== Parameters
+  # * 'options'<~Hash>
+  #   * 'id' - the id of the incident
+  #   * 'requester_id'<~String>
+  #   * 'note' - <~Hash>
+  #      * 'content' - <~ String>
+  # ==== Returns
+  # * <~Pagerduty::Schedules::Overrides::Override>
+  #   * 'id'<~String>
+  #   * 'user'<~Pagerduty::User>
+  #     * 'id'<~String>
+  #     * 'name'<~String>
+  #     * 'email'<~String>
+  #     * 'color'<~String>
+  #     * 'role'<~String>
+  #     * 'avatar_url'<~String>
+  #     * 'user_url'<~String>
+  #     * 'invitation_sent'<~Boolean>
+  #     * 'marketing_opt_out'<~Boolean>
+  #   * 'content'<~String>
+  #   * 'created_at'<~String>
+  # {Pagerduty API Reference}[https://developer.pagerduty.com/documentation/rest/schedules/overrides/create]
+  def create_note(options={})
+    Pagerduty::Schedules::Overrides::Override.new(curl({
+      uri: "https://#@@subdomain.pagerduty.com/api/v1/incidents/#{options[:id]}/notes",
+      data: options.except(:id),
+      method: 'POST'
+    })['override'])
+  end
 
   # List all incident log entries across the entire account
   #
