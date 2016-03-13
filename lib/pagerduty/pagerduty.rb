@@ -544,23 +544,15 @@ class Pagerduty
   #   * 'note' - <~Hash>
   #      * 'content' - <~ String>
   # ==== Returns
-  # * <~Pagerduty::Schedules::Overrides::Override>
+  # * <~Pagerduty::Note::Note>
   #   * 'id'<~String>
   #   * 'user'<~Pagerduty::User>
-  #     * 'id'<~String>
-  #     * 'name'<~String>
-  #     * 'email'<~String>
-  #     * 'color'<~String>
-  #     * 'role'<~String>
-  #     * 'avatar_url'<~String>
-  #     * 'user_url'<~String>
-  #     * 'invitation_sent'<~Boolean>
-  #     * 'marketing_opt_out'<~Boolean>
+  #   * 'id'<~String>
   #   * 'content'<~String>
   #   * 'created_at'<~String>
-  # {Pagerduty API Reference}[https://developer.pagerduty.com/documentation/rest/schedules/overrides/create]
+  # {Pagerduty API Reference}[https://developer.pagerduty.com/documentation/rest/incidents/notes/create]
   def create_note(options={})
-    Pagerduty::Schedules::Overrides::Override.new(curl({
+    Pagerduty::Notes::Note.new(curl({
       uri: "https://#@@subdomain.pagerduty.com/api/v1/incidents/#{options[:id]}/notes",
       data: options.except(:id),
       method: 'POST'
