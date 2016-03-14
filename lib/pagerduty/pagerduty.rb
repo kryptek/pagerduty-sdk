@@ -552,7 +552,7 @@ class Pagerduty
   #   * 'created_at'<~String>
   # {Pagerduty API Reference}[https://developer.pagerduty.com/documentation/rest/incidents/notes/create]
   def create_note(options={})
-    Pagerduty::Notes::Note.new(curl({
+    Pagerduty::Note.new(curl({
       uri: "https://#@@subdomain.pagerduty.com/api/v1/incidents/#{options[:id]}/notes",
       data: options.except(:id),
       method: 'POST'
