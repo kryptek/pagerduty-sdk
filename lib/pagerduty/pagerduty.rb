@@ -384,6 +384,52 @@ class Pagerduty
     } || 'No results'
   end
 
+  # Show detailed information about an incident. 
+  # Accepts an incident key
+  #
+  # ==== Parameters
+  # key'<~String> - The incident key to look for
+  #
+  # ==== Returns
+  # * <~Pagerduty::Incident>:
+  #   * 'id'<~String> - Id of request
+  #   * 'incident_number'<~String>:
+  #   * 'created_on'<~String>:
+  #   * 'status'<~String>:
+  #   * 'html_url'<~String>:
+  #   * 'incident_key'<~String>:
+  #   * 'service'<~Pagerduty::Service>
+  #     * 'id'<~String>:
+  #     * 'name'<~String>:
+  #     * 'html_url'<~String>:
+  #     * 'deleted_at'<~String>:
+  #   * 'escalation_policy'<~String>:
+  #   * 'assigned_to_user'<~String>:
+  #   * 'trigger_summary_data'<~String>:
+  #   * 'trigger_details_html_url'<~String>:
+  #   * 'trigger_type'<~String>:
+  #   * 'last_status_change_on'<~String>:
+  #   * 'last_status_change_by'<~Pagerduty::User>:
+  #     * 'id'<~String>:
+  #     * 'name'<~String>:
+  #     * 'email'<~String>:
+  #     * 'html_url'<~String>:
+  #   * 'number_of_escalations'<~Integer>:
+  #   * 'resolved_by_user'<~Pagerduty::ResolvedByUser>:
+  #     * 'id'<~String>:
+  #     * 'name'<~String>:
+  #     * 'email'<~String>:
+  #     * 'html_url'<~String>:
+  #
+  # {Pagerduty API Reference}[http://developer.pagerduty.com/documentation/rest/incidents/show]
+  def get_incident_by_key(key)
+    Pagerduty::Incidents.new(curl({
+      uri: "https://#@@subdomain.pagerduty.com/api/v1/incidents",
+      params: { incident_key: key },
+      method: 'GET'
+    }))
+  end
+
   # Use this query if you are simply looking for the count of incidents that match a given query. This should be used if you don't need access to the actual incident details.
   #
   # ==== Parameters
