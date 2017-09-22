@@ -1,12 +1,11 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'pagerduty/core'
-require 'pagerduty/pagerduty'
+require 'pagerduty'
 
 Gem::Specification.new do |gem|
   gem.name          = "pagerduty-sdk"
-  gem.version       = '1.0.9'
+  gem.version       = '2.0.0'
   gem.authors       = ["Alfred Moreno"]
   gem.email         = ["kryptek@gmail.com"]
   gem.description   = %q{An SDK for Pagerduty's API}
@@ -18,8 +17,12 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency 'activesupport'
+  gem.add_dependency 'faraday'
+  gem.add_dependency 'faraday_middleware'
+  gem.add_dependency 'guard'
+  gem.add_dependency 'guard-rspec'
   gem.add_dependency 'json'
+  gem.add_dependency 'vcr'
   gem.add_dependency 'virtus'
 
   gem.license       = 'MIT'
